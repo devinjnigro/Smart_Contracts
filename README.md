@@ -14,3 +14,8 @@ This contract is designed to distribute 1000 shares to an employee over a 4-year
 require(unlock_time <= now, "You are not yet eligible to execute this contract.");
 require(distributed_shares < total_shares, "Maximum number of shares reached.");
 ```
+The distributed shares are calculated by subtracting the start_time (time at which the contract is deployed) from the current time, dividing by 365 days, and then multiplying by the annual distribution, in this case 250 shares: 
+```
+distributed_shares = (now - start_time) / 365 days * annual_distribution;
+```
+Again, because of the inability to produce float values, if ```now - start_time``` is not divisible by 365, ```now - start_time``` is rounded down to the nearest number that is, which means ```(now - start_time) / 365 days``` will always be a multiple of 356 days, unless it is 0, which would be the case is less than a year has elapsed from start_time. 
